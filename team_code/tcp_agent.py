@@ -78,7 +78,7 @@ class TCPAgent(autonomous_agent.AutonomousAgent):
 
 			(self.save_path / 'rgb').mkdir()
 			(self.save_path / 'meta').mkdir()
-			(self.save_path / 'bev').mkdir()
+			# (self.save_path / 'bev').mkdir()
 
 	def _init(self):
 		self._route_planner = RoutePlanner(4.0, 50.0)
@@ -101,13 +101,13 @@ class TCPAgent(autonomous_agent.AutonomousAgent):
 					'width': 900, 'height': 256, 'fov': 100,
 					'id': 'rgb'
 					},
-				{
-					'type': 'sensor.camera.rgb',
-					'x': 0.0, 'y': 0.0, 'z': 50.0,
-					'roll': 0.0, 'pitch': -90.0, 'yaw': 0.0,
-					'width': 512, 'height': 512, 'fov': 5 * 10.0,
-					'id': 'bev'
-					},	
+				# {
+				# 	'type': 'sensor.camera.rgb',
+				# 	'x': 0.0, 'y': 0.0, 'z': 50.0,
+				# 	'roll': 0.0, 'pitch': -90.0, 'yaw': 0.0,
+				# 	'width': 512, 'height': 512, 'fov': 5 * 10.0,
+				# 	'id': 'bev'
+				# 	},	
 				{
 					'type': 'sensor.other.imu',
 					'x': 0.0, 'y': 0.0, 'z': 0.0,
@@ -133,7 +133,7 @@ class TCPAgent(autonomous_agent.AutonomousAgent):
 		self.step += 1
 
 		rgb = cv2.cvtColor(input_data['rgb'][1][:, :, :3], cv2.COLOR_BGR2RGB)
-		bev = cv2.cvtColor(input_data['bev'][1][:, :, :3], cv2.COLOR_BGR2RGB)
+		# bev = cv2.cvtColor(input_data['bev'][1][:, :, :3], cv2.COLOR_BGR2RGB)
 		gps = input_data['gps'][1][:2]
 		speed = input_data['speed'][1]['speed']
 		compass = input_data['imu'][1][-1]
@@ -146,7 +146,7 @@ class TCPAgent(autonomous_agent.AutonomousAgent):
 				'gps': gps,
 				'speed': speed,
 				'compass': compass,
-				'bev': bev
+				# 'bev': bev
 				}
 		
 		pos = self._get_position(result)
@@ -261,7 +261,7 @@ class TCPAgent(autonomous_agent.AutonomousAgent):
 
 		Image.fromarray(tick_data['rgb']).save(self.save_path / 'rgb' / ('%04d.png' % frame))
 
-		Image.fromarray(tick_data['bev']).save(self.save_path / 'bev' / ('%04d.png' % frame))
+		# Image.fromarray(tick_data['bev']).save(self.save_path / 'bev' / ('%04d.png' % frame))
 
 		outfile = open(self.save_path / 'meta' / ('%04d.json' % frame), 'w')
 		json.dump(self.pid_metadata, outfile, indent=4)
