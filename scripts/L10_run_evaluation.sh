@@ -15,6 +15,9 @@ export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
 # general parameters
 export PORT=2000
 export TM_PORT=2500
+export SEED=42
+# export SEED=11037
+# export SEED=114514
 export DEBUG_CHALLENGE=0
 
 export SCENARIOS=${LEADERBOARD_ROOT}/data/all_towns_traffic_scenarios_public.json
@@ -23,15 +26,17 @@ export ROUTES_SUBSET=0
 export REPETITIONS=1
 
 export CHALLENGE_TRACK_CODENAME=SENSORS
+export TIME_STAMP=$(date +"%s")
 export TEAM_AGENT=${WORKSPACE}/team_code/tcp_agent.py
 export TEAM_CONFIG=${WORKSPACE}/ckpt/epoch=59-last.ckpt
-export CHECKPOINT_ENDPOINT=${WORKSPACE}/logs/log_route_${ROUTES_SUBSET}.json
+export CHECKPOINT_ENDPOINT=${WORKSPACE}/logs/route_${ROUTES_SUBSET}_seed_${SEED}_${TIME_STAMP}.json
 
 export RESUME=0
 
 python3 ${LEADERBOARD_ROOT}/leaderboard/leaderboard_evaluator.py \
     --port=${PORT} \
     --trafficManagerPort=${TM_PORT} \
+    --trafficManagerSeed=${SEED} \
     --scenarios=${SCENARIOS}  \
     --routes=${ROUTES} \
     --routes-subset=${ROUTES_SUBSET} \
